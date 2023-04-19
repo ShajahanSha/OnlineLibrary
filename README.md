@@ -15,6 +15,7 @@ Considerations:
 - Checkout method will take list of books as parameters plus optional promotion code and return total price after discount (if applicable). 
 - Promotion/Discounts is variant according to book type/classification, ex: fiction books may have 10% discount while comic books have 0% discount.	
 
+Api specifications:
 - AddBook to library POST - onlinebookshop/api/v1/books
     Request - {
         "name": "tyty",
