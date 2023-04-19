@@ -15,9 +15,13 @@ Considerations:
 - Checkout method will take list of books as parameters plus optional promotion code and return total price after discount (if applicable). 
 - Promotion/Discounts is variant according to book type/classification, ex: fiction books may have 10% discount while comic books have 0% discount.	
 
-Api specifications:
+**Api Credentials:**
+- UserName - onlinebookstore
+- Password - onlinebookstore
+
+**Api Specifications:**
 - AddBook to library POST - onlinebookshop/api/v1/books
-    Request - {
+    - Request - {
         "name": "tyty",
         "description": "test",
         "author": "Shajahan",
@@ -27,7 +31,7 @@ Api specifications:
     }
 - Fetch Book GET - onlinebookshop/api/v1/books
 - Update book to the library PUT - onlinebookshop/api/v1/books
-    Request - {
+    - Request - {
                   "bookId": 1,
                   "name": "tyty",
                   "description": "test",
@@ -38,7 +42,7 @@ Api specifications:
               }
 - Delete book from library DELETE - onlinebookshop/api/v1/books/{bookId}
 - CheckOut POST - onlinebookshop/api/v1/books/checkout
-    Request - {
+    - Request - {
                   "serviceType": "CHECKOUT",
                   "checkoutCode": "asde",
                   "promotionCode": "PROMO10",
