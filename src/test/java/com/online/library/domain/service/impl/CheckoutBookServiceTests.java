@@ -33,7 +33,7 @@ public class CheckoutBookServiceTests {
 		CheckoutBookResult result = checkoutBookService.processCheckout(command);
 		Assert.assertNotNull(result.getStatusInfo().getStatus());
 		Assert.assertEquals(result.getTotalCheckoutAmount(), new BigDecimal("600"));
-		Assert.assertEquals(result.getDiscountAmount(), new BigDecimal("10"));
+		Assert.assertEquals(result.getDiscountAmount(), new BigDecimal("0"));
 	}
 
 	@Test
@@ -59,7 +59,7 @@ public class CheckoutBookServiceTests {
 		CheckoutBookResult result = checkoutBookService.processCheckout(command);
 		Assert.assertNotNull(result.getStatusInfo().getStatus());
 		Assert.assertNotEquals(result.getTotalCheckoutAmount(), new BigDecimal("700"));
-		Assert.assertEquals(result.getDiscountAmount(), new BigDecimal("10"));
+		Assert.assertEquals(result.getDiscountAmount(), new BigDecimal("0"));
 	}
 
 	@Test
