@@ -8,14 +8,16 @@
 		<version>2.7.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bookstore</groupId>
-	<artifactId>online-book-store</artifactId>
+	<groupId>com.online.library</groupId>
+	<artifactId>online-library-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>online-book-store</name>
 	<description>Online Book Store Rest Apis</description>
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<build.file.name>online-library-api</build.file.name>
 	</properties>
 
 	<dependencies>
