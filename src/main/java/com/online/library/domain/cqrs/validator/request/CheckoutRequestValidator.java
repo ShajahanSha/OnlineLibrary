@@ -62,7 +62,10 @@ public class CheckoutRequestValidator {
             }
             BookQuery query = new BookQuery();
             query.setBookId(command.getBookId());
-            BookResult result = bookService.fetchBooks(query);
+            BookResult result = bookService.fetchBookById(query.getBookId());
+            if (null == result) {
+                throw new BusinessException(new ErrorCode("INVALID_BOOKID", "BookId is invalid"));
+            }
         }
     }
 

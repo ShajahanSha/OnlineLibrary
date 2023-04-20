@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,19 +59,17 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public BookResult fetchBooks(BookQuery query) throws BusinessException {
+    public BookResult fetchBookById(long bookId) throws BusinessException {
         logger.debug("BookServiceImpl | fetchBooks |");
-        StringBuilder error = new StringBuilder();
-        if (null != query.getBookId()) {
-            Optional<BookBO> bookBO = bookRepository.findById(query.getBookId());
+        if (bookId > 0) {
+            Optional<BookBO> bookBO = bookRepository.findById(bookId);
             if (bookBO.isPresent()) {
                 BookBO bo = bookBO.get();
                 return mapResult(bo);
             }
-            error.append("Invalid BookId");
         }
         logger.debug("BookServiceImpl | fetchBooks | NO_DATA_FOUND");
-        throw new BusinessException(new ErrorCode("INVALID_DATA_FOUND", error.toString()));
+        throw new BusinessException(new ErrorCode("INVALID_DATA_FOUND", "Invalid BookId"));
     }
 
     @Override
@@ -84,9 +83,6 @@ public class LibraryServiceImpl implements LibraryService {
             BookResult result = mapResult(bo);
             resultList.add(result);
         }
-        if (null == bookBOs || bookBOs.isEmpty()) {
-            throw new BusinessException(new ErrorCode("NO_DATA", "No data found"));
-        }
         return PageableExecutionUtils.getPage(resultList, pageable, () -> bookBOs.getTotalElements());
     }
 
@@ -97,7 +93,9 @@ public class LibraryServiceImpl implements LibraryService {
             return bookRepository.findByNameEquals(query.getName(), pageable);
         } else if (StringUtils.isNotEmpty(query.getAuthor())) {
             return bookRepository.findByAuthorEquals(query.getAuthor(), pageable);
-        } else {
+        } else if (StringUtils.isNotEmpty(query.getIsbn())) {
+            return bookRepository.findByIsbnEquals(query.getIsbn(), pageable);
+        }else {
             return bookRepository.findAll(pageable);
         }
     }
@@ -117,12 +115,9 @@ public class LibraryServiceImpl implements LibraryService {
         logger.debug("BookServiceImpl | addBook |");
         BookResult bookResult = null;
         BookBO bo = new BookBO();
-        bo.setName(command.getName());
-        bo.setDescription(command.getDescription());
-        bo.setAuthor(command.getAuthor());
-        bo.setClassification(command.getClassification());
-        bo.setPrice(command.getPrice());
+        mapCommandToBO(bo, command);
         bo.setIsbn(command.getIsbn());
+        bo.setCreatedDate(new Date());
         BookBO saveBO = bookRepository.save(bo);
         logger.debug("BookServiceImpl | addBook | Book saved");
         command.setBookId(null != saveBO ? saveBO.getId() : 0);
@@ -134,12 +129,24 @@ public class LibraryServiceImpl implements LibraryService {
         logger.debug("BookServiceImpl | updateBook |");
         Optional<BookBO> bookBO = bookRepository.findById(command.getBookId());
         if (bookBO.isPresent()) {
+            BookBO bo = bookBO.get();
+            mapCommandToBO(bo, command);
+            bo.setUpdatedDate(new Date());
+            bookRepository.save(bo);
             BookResult result = EntityConverter.buildResult(command);
             result.getStatusInfo().setStatus("UPDATED");
             return result;
         }
         logger.debug("BookServiceImpl | updateBook | INVALID_BOOK_DETAILS");
         throw new BusinessException(new ErrorCode("INVALID_BOOK_DETAILS", "Invalid Book details"));
+    }
+
+    private void mapCommandToBO(BookBO bo, BookCommand command) {
+        bo.setName(command.getName());
+        bo.setDescription(command.getDescription());
+        bo.setAuthor(command.getAuthor());
+        bo.setClassification(command.getClassification());
+        bo.setPrice(command.getPrice());
     }
 
     private BookResult deleteBook(BookCommand command) throws BusinessException {
@@ -152,6 +159,7 @@ public class LibraryServiceImpl implements LibraryService {
         bookRepository.deleteById(command.getBookId());
         logger.debug("BookServiceImpl | deleteBook | Book deleted");
         return BookResult.builder()
+                .bookId(command.getBookId())
                 .statusInfo(new StatusInfo("DELETED")).build();
     }
 

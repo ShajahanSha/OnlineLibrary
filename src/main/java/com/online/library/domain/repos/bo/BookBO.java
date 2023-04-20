@@ -3,6 +3,8 @@ package com.online.library.domain.repos.bo;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * <p>
@@ -37,10 +39,18 @@ public class BookBO {
     @Column(name = "ISBN")
     private String isbn;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_DATE")
+    private Date createdDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "UPDATED_DATE")
+    private Date updatedDate;
+
     public BookBO() {
     }
 
-    public BookBO(long id, String name, String description, String author, String classification, BigDecimal price, String isbn) {
+    public BookBO(long id, String name, String description, String author, String classification, BigDecimal price, String isbn, Date createdDate, Date updatedDate) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -48,6 +58,8 @@ public class BookBO {
         this.classification = classification;
         this.price = price;
         this.isbn = isbn;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
 
     public long getId() {
@@ -106,8 +118,38 @@ public class BookBO {
         this.isbn = isbn;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
     @Override
     public String toString() {
         return "Books [id=" + id + ", name=" + name + ", desc=" + description + ", author=" + author + "]";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookBO bo = (BookBO) o;
+        return id == bo.id &&
+                Objects.equals(isbn, bo.isbn) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, isbn);
     }
 }

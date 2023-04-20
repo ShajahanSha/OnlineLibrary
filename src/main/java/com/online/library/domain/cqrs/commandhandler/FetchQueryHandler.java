@@ -3,6 +3,7 @@ package com.online.library.domain.cqrs.commandhandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.online.library.domain.cqrs.exception.BusinessException;
+import com.online.library.domain.cqrs.exception.ErrorCode;
 import com.online.library.domain.cqrs.query.BookQuery;
 import com.online.library.domain.cqrs.query.QueryHandlerExecutor;
 import com.online.library.domain.cqrs.result.BookResult;
@@ -44,7 +45,7 @@ public class FetchQueryHandler extends QueryHandlerExecutor<BookQuery, BookResul
     public BookResult handle(BookQuery query) throws Exception {
         BookResult result = null;
         try {
-            result = bookService.fetchBooks(query);
+            result = bookService.fetchBookById(query.getBookId());
         } catch (BusinessException ex) {
             logger.error("BusinessException thrown. message -{}, detailedMessage -{} ", ex.getMessage(), ex);
             result = EntityConverter.populateBusinessExceptionResult(query, ex.getErrorCode());
@@ -54,7 +55,11 @@ public class FetchQueryHandler extends QueryHandlerExecutor<BookQuery, BookResul
 
     public Page<BookResult> fetchData(BookQuery searchCriteria, Pageable pageable) throws BusinessException {
         logger.info("FetchQuery | fetchPlan | START");
-        return bookService.fetchBooks(searchCriteria, pageable);
+        Page<BookResult> bookBOs = bookService.fetchBooks(searchCriteria, pageable);
+        if (null == bookBOs || bookBOs.isEmpty()) {
+            throw new BusinessException(new ErrorCode("NO_DATA", "No data found"));
+        }
+        return bookBOs;
     }
 
 }

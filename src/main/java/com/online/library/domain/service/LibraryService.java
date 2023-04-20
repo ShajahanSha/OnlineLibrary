@@ -12,6 +12,6 @@ import org.springframework.data.domain.Pageable;
  */
 public interface LibraryService {
     BookResult processBook(BookCommand command) throws BusinessException;
-    BookResult fetchBooks(BookQuery query) throws BusinessException;
+    BookResult fetchBookById(long bookId) throws BusinessException;
     Page<BookResult> fetchBooks(BookQuery query, Pageable pageable) throws BusinessException;
 }

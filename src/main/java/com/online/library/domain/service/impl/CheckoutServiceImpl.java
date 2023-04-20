@@ -38,7 +38,6 @@ public class CheckoutServiceImpl implements CheckoutService {
     }
 
     @Override
-    @Transactional
     public CheckoutBookResult processCheckout(CheckoutBookCommand command) throws BusinessException {
         logger.debug("CheckoutBookServiceImpl | processCheckout |");
         CheckoutBookResult result = EntityConverter.buildResult(command);
@@ -51,9 +50,6 @@ public class CheckoutServiceImpl implements CheckoutService {
                 discount = discount.add(discountRule.apply(command.getBookCommands()));
             }
         }
-        /*for(BookCommand bookCommand: command.getBookCommands()) {
-            totalPrice = totalPrice.add(bookCommand.getPrice());
-        }*/
         totalPrice = command.getBookCommands().stream()
                 .collect(Collectors.mapping(BookCommand::getPrice,Collectors.reducing(BigDecimal.ZERO, BigDecimal::add)));
 
@@ -61,8 +57,6 @@ public class CheckoutServiceImpl implements CheckoutService {
         if (StringUtils.isNotEmpty(command.getPromotionCode())) {
             Long promo = PromotionCode.getCodeByValue(command.getPromotionCode());
             promoAmount = BigDecimal.valueOf(promo);
-
-            //discount = discount.add(BigDecimal.valueOf(promo));
         }
 
         logger.debug("CheckoutBookServiceImpl | processCheckout | totalPrice-{}, discount-{}", totalPrice, discount);

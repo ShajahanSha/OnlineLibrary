@@ -22,14 +22,14 @@ public class GenericControllerAdvisor extends ResponseEntityExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GenericControllerAdvisor.class);
 
     @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<ErrorCode> handleException(Exception exception) {
+    public ResponseEntity<StatusInfo> handleException(Exception exception) {
         log.error("error occurred", exception);
         StatusInfo statusInfo = new StatusInfo(TransactionStatus.FAILURE.toString(), new ErrorCode("SOMETHING_WENT_WRONG", "Something went wrong, Please contact support team"));
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(statusInfo, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = {BusinessException.class})
-    public ResponseEntity<?> handleBusinessException(BusinessException exception) {
+    public ResponseEntity<StatusInfo> handleBusinessException(BusinessException exception) {
         log.error("error occurred", exception);
         StatusInfo statusInfo = new StatusInfo(TransactionStatus.FAILURE.toString(), exception.getErrorCode());
         return new ResponseEntity<>(statusInfo, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -3,6 +3,8 @@ package com.online.library.domain.service.impl;
 import com.online.library.domain.constants.enums.ClassificationType;
 import com.online.library.domain.cqrs.command.BookCommand;
 import com.online.library.domain.service.DiscountRules;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Component
 public class FictionDiscountRule implements DiscountRules {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(FictionDiscountRule.class);
     public static final BigDecimal fictionDiscount = new BigDecimal("0.1");
 
     public FictionDiscountRule() {
@@ -20,6 +22,7 @@ public class FictionDiscountRule implements DiscountRules {
 
     @Override
     public BigDecimal apply(List<BookCommand> books) {
+        LOGGER.debug("FictionDiscountRule | apply");
         BigDecimal discountAmount = BigDecimal.ZERO;
         if (!CollectionUtils.isEmpty(books)) {
             for(BookCommand command : books) {

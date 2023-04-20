@@ -14,6 +14,7 @@ public interface BookRepository extends JpaRepository<BookBO, Long> {
     Page<BookBO> findByNameEquals(String bookName, Pageable pageable);
     Page<BookBO> findByNameAndAuthorEquals(String bookName, String author, Pageable pageable);
     Page<BookBO> findByAuthorEquals(String author, Pageable pageable);
+    Page<BookBO> findByIsbnEquals(String isbn, Pageable pageable);
     @Query(value = "SELECT u FROM BookBO u ORDER BY id")
     Page<BookBO> findAllWithPagination(Pageable pageable);
 

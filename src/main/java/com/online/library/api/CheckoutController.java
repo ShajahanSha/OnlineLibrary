@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/api/v1/books")
+@RequestMapping(value = "/api/v1/checkout")
 //@EnableWebMvc
 public class CheckoutController {
     private static final Logger logger = LoggerFactory.getLogger(CheckoutController.class);
@@ -27,8 +27,9 @@ public class CheckoutController {
     }
 
     @ApiOperation(value = "checkout books from Online library")
-    @PostMapping("/checkout")
+    @PostMapping("/orders")
     public ResponseEntity<CheckoutBookResult> checkout(@RequestBody CheckoutBookCommand command) throws Exception{
+        logger.debug("CheckoutController | orders");
         command.setServiceType(ServiceType.CHECKOUT.getValue());
         CheckoutBookResult result = checkoutHandler.handle(command);
         return new ResponseEntity<>(result, HttpStatus.ACCEPTED);

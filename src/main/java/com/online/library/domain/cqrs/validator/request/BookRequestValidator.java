@@ -9,7 +9,13 @@ import com.online.library.domain.cqrs.command.BookCommand;
 import com.online.library.domain.cqrs.exception.BusinessException;
 import com.online.library.domain.cqrs.exception.ErrorCode;
 import com.online.library.domain.cqrs.query.BookQuery;
+import com.online.library.domain.cqrs.query.PagingQuery;
+import com.online.library.domain.cqrs.result.BookResult;
+import com.online.library.domain.service.LibraryService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -24,6 +30,11 @@ import org.slf4j.LoggerFactory;
 public class BookRequestValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookRequestValidator.class);
+
+    private final LibraryService libraryService;
+    public BookRequestValidator(LibraryService libraryService) {
+        this.libraryService = libraryService;
+    }
 
     public void validate(BookCommand command) throws BusinessException {
         if (ServiceType.CREATE.getValue().equalsIgnoreCase(command.getServiceType())) {
@@ -62,9 +73,17 @@ public class BookRequestValidator {
     private void validateISBN(String isbn) throws BusinessException {
         try {
             Long num = Long.valueOf(isbn.replace("-", ""));
+            Pageable pageable = PageRequest.of(0, 20);
+
+            Page<BookResult> bookResults = libraryService.fetchBooks(BookQuery.builder().isbn(isbn).build(), pageable);
+            if (null != bookResults && !bookResults.isEmpty()) {
+                throw new BusinessException(new ErrorCode("DUPLICATE_ISBN", "Duplicate Isbn"));
+            }
 
             // TODO: 19/04/2023
             //isbnFormatCheck(isbn);
+        }  catch (BusinessException e) {
+            throw e;
         } catch (Exception e) {
             throw new BusinessException(new ErrorCode("INVALID_ISBN", "Invalid Isbn, it should be number"));
         }

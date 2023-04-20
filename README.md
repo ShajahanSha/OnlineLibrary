@@ -85,6 +85,6 @@
 
     - Docker pull image - docker pull shajahanshaik/online-library-api:latest
     
-    - Docker log - do 
+    - Docker log - docker logs online-library-api
 
 

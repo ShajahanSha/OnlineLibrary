@@ -44,7 +44,7 @@ public class OnlineLibraryController {
     @ApiOperation(value = "fetchBookId", notes = "fetch bookid")
     @RequestMapping(value = "/getBook/{bookId}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> getBookId(@PathVariable("bookId") long bookId) throws Exception {
+    public ResponseEntity<BookResult> getBookId(@PathVariable("bookId") long bookId) throws Exception {
         BookResult result = queryHandler.handle(BookQuery.builder().bookId(bookId).build());
         return ResponseEntity.ok(result);
     }
@@ -60,7 +60,7 @@ public class OnlineLibraryController {
 
     @ApiOperation(value = "Add book to Online library")
     @PostMapping()
-    public ResponseEntity<?> addBook(@RequestBody BookCommand command) throws Exception{
+    public ResponseEntity<BookResult> addBook(@RequestBody BookCommand command) throws Exception{
         command.setServiceType(ServiceType.CREATE.getValue());
         BookResult result = commandHandler.handle(command);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -68,7 +68,7 @@ public class OnlineLibraryController {
 
     @ApiOperation(value = "Update book to Online library")
     @PutMapping()
-    public ResponseEntity<?> updateBook(@RequestBody BookCommand command) throws Exception{
+    public ResponseEntity<BookResult> updateBook(@RequestBody BookCommand command) throws Exception{
         command.setServiceType(ServiceType.UPDATE.getValue());
         BookResult result = commandHandler.handle(command);
         return new ResponseEntity<>(result, HttpStatus.CREATED);
@@ -76,11 +76,11 @@ public class OnlineLibraryController {
 
     @ApiOperation(value = "delete book from Online library")
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<?> deleteBook(@PathVariable("bookId") long bookId) throws Exception{
+    public ResponseEntity<BookResult> deleteBook(@PathVariable("bookId") long bookId) throws Exception{
         BookCommand command = new BookCommand();
         command.setBookId(bookId);
         command.setServiceType(ServiceType.DELETE.getValue());
         BookResult result = commandHandler.handle(command);
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
