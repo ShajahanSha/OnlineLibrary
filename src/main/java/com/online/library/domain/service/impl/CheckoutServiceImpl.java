@@ -37,6 +37,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     }
 
+
     @Override
     public CheckoutBookResult processCheckout(CheckoutBookCommand command) throws BusinessException {
         logger.debug("CheckoutBookServiceImpl | processCheckout |");

@@ -70,7 +70,7 @@
 
 **Docker Setup:**
 
-    - Docker hub url - https://hub.docker.com/r/shajahanshaik/online-library-api
+    - Docker hub url - https://hub.docker.com/r/shajahanshaik/online-library-api1
 
     - Docker File -------
             FROM openjdk:8-jdk-alpine
