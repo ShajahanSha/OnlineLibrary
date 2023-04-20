@@ -58,3 +58,18 @@ Considerations:
                       }
                   ]
               }
+
+**Docker Setup:**
+- Docker File -------
+	FROM openjdk:8-jdk-alpine
+	EXPOSE 8080
+	ARG JAR_FILE=target/online-library-api-0.0.1-SNAPSHOT.jar
+	COPY ${JAR_FILE} app.jar
+	ENTRYPOINT ["java","-jar","/app.jar"]
+
+
+- Building Docker Image ----
+docker build --platform linux/amd64 -t online-library-api .
+
+- Run docker container -----
+docker run -p 8080:8080 -t online-library-api
