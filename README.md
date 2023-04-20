@@ -85,3 +85,17 @@ docker run -p 8080:8080 -t online-library-api
 docker pull shajahanshaik/online-library-api:latest
 
 
+**Local Setup**
+
+	-Download the project from GIT
+
+	-Once it is available in your system, import the project as maven project in your working IDE(example Intellij)
+
+	-Run Clean install from 
+		- intellij using - Maven > Lifecycle > clean
+		-Or using the following command prompt
+			-Go to the directory of your downloaded project which contains pom.xml and run the following command
+
+			mvn clean install
+	-Once the build is successful, right click on the following file to run the spring boot application
+			BookShopApplication.java
