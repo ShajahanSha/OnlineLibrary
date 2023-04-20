@@ -4,6 +4,7 @@ import com.online.library.domain.constants.enums.ServiceType;
 import com.online.library.domain.cqrs.command.CheckoutBookCommand;
 import com.online.library.domain.cqrs.commandhandler.CheckoutCommandHandler;
 import com.online.library.domain.cqrs.result.CheckoutBookResult;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class CheckoutController {
         this.checkoutHandler = checkoutHandler;
     }
 
+    @ApiOperation(value = "checkout books from Online library")
     @PostMapping("/checkout")
     public ResponseEntity<CheckoutBookResult> checkout(@RequestBody CheckoutBookCommand command) throws Exception{
         command.setServiceType(ServiceType.CHECKOUT.getValue());

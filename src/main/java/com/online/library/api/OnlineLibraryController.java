@@ -38,10 +38,10 @@ public class OnlineLibraryController {
 
     @GetMapping("/health")
     public String status() {
-        return "Online Book Store API is up and running";
+        return "Online library API is up and running";
     }
 
-    @ApiOperation(value = "fetchPlan", notes = "fetchPlan inquiry")
+    @ApiOperation(value = "fetchBookId", notes = "fetch bookid")
     @RequestMapping(value = "/getBook/{bookId}", method = RequestMethod.GET, produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getBookId(@PathVariable("bookId") long bookId) throws Exception {
@@ -49,7 +49,7 @@ public class OnlineLibraryController {
         return ResponseEntity.ok(result);
     }
 
-    @ApiOperation(value = "Get book from online Online Bookstore")
+    @ApiOperation(value = "Get book from Online library")
     @GetMapping()
     public ResponseEntity<?> getBook(@RequestParam(value = "name", required = false) String name,
                                      @RequestParam(value = "author", required = false) String author,
@@ -58,6 +58,7 @@ public class OnlineLibraryController {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Add book to Online library")
     @PostMapping()
     public ResponseEntity<?> addBook(@RequestBody BookCommand command) throws Exception{
         command.setServiceType(ServiceType.CREATE.getValue());
@@ -65,6 +66,7 @@ public class OnlineLibraryController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Update book to Online library")
     @PutMapping()
     public ResponseEntity<?> updateBook(@RequestBody BookCommand command) throws Exception{
         command.setServiceType(ServiceType.UPDATE.getValue());
@@ -72,6 +74,7 @@ public class OnlineLibraryController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "delete book from Online library")
     @DeleteMapping("/{bookId}")
     public ResponseEntity<?> deleteBook(@PathVariable("bookId") long bookId) throws Exception{
         BookCommand command = new BookCommand();
