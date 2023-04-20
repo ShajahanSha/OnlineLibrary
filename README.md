@@ -31,23 +31,23 @@
 
     - AddBook to library POST - http://localhost:8080/onlinelibrary/api/v1/books
         - Request - {
-            "name": "tyty",
-            "description": "test",
-            "author": "Shajahan",
+            "name": "The Last Kids on Earth: The Monster Box",
+            "description": "The Last Kids on Earth: The Monster Box",
+            "author": "Jack Sullivan",
             "classification": "comic",
             "price": 300,
-            "isbn": "3434"
+            "isbn": "0451481089"
         }
     - Fetch Book GET - http://localhost:8080/onlinelibrary/api/v1/books
     - Update book to the library PUT - http://localhost:8080/onlinelibrary/api/v1/books
         - Request - {
                       "bookId": 1,
-                      "name": "tyty",
-                      "description": "test",
-                      "author": "Shajahan",
+                      "name": "The Last Kids on Earth: The Monster Box",
+                      "description": "The Last Kids on Earth: The Monster Box",
+                      "author": "Jack Sullivan",
                       "classification": "comic",
                       "price": 300,
-                      "isbn": "3434"
+                      "isbn": "0451481089"
                   }
     - Delete book from library DELETE - http://localhost:8080/onlinelibrary/api/v1/books/{bookId}
     - CheckOut POST - http://localhost:8080/onlinelibrary/api/v1/books/checkout
@@ -58,12 +58,12 @@
                       "bookCommands": [
                           {
                               "bookId": 1,
-                              "name": "asde",
-                              "description": "test",
-                              "author": "Shajahan",
+                              "name": "The Last Kids on Earth: The Monster Box",
+                              "description": "The Last Kids on Earth: The Monster Box",
+                              "author": "Jack Sullivan",
                               "classification": "comic",
-                              "price": 200,
-                              "isbn": "2242"
+                              "price": 300,
+                              "isbn": "0451481089"
                           }
                       ]
                   }
