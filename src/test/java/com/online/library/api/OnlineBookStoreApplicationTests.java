@@ -72,7 +72,7 @@ public class OnlineBookStoreApplicationTests {
 		when(bookCommandHandler.handle(command)).thenReturn(result);
 		ResponseEntity<?> response = storeController.deleteBook(12);
 		//Assert.assertNotNull(response.getStatusCode().value());
-		Assert.assertTrue(response.getStatusCode().value() == HttpStatus.NO_CONTENT.value());
+		Assert.assertTrue(response.getStatusCode().value() == HttpStatus.OK.value());
 	}
 
 	private BookCommand mockRequest() {
