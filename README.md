@@ -1,4 +1,4 @@
-# Online Book Store Rest API
+# Online Library Rest API
 
 Develop Rest API’s for – 
 - CRUD operations on Books. 
