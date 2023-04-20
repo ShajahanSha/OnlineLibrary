@@ -19,6 +19,10 @@ Considerations:
 - UserName - onlinebookstore
 - Password - onlinebookstore
 
+
+- Git hub url -----
+https://github.com/ShajahanSha/OnlineLibrary
+
 **Api Specifications:**
 - AddBook to library POST - onlinebookshop/api/v1/books
     - Request - {
@@ -60,6 +64,9 @@ Considerations:
               }
 
 **Docker Setup:**
+- Docker hub url -----
+https://hub.docker.com/r/shajahanshaik/online-library-api
+
 - Docker File -------
 	FROM openjdk:8-jdk-alpine
 	EXPOSE 8080
@@ -73,3 +80,8 @@ docker build --platform linux/amd64 -t online-library-api .
 
 - Run docker container -----
 docker run -p 8080:8080 -t online-library-api
+
+- Docker pull image -----
+docker pull shajahanshaik/online-library-api:latest
+
+
