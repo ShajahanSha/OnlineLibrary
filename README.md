@@ -59,7 +59,7 @@
                       "isbn": "0451481089"
                   }
     - Delete book from library DELETE - http://localhost:8080/onlinelibrary/api/v1/books/{bookId}
-    - CheckOut POST - http://localhost:8080/onlinelibrary/api/v1/books/checkout
+    - CheckOut POST - http://localhost:8080/onlinelibrary/api/v1/checkout/orders
         - Request - {
                       "serviceType": "CHECKOUT",
                       "checkoutCode": "asde",
